@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluation Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/evaluation.css') }}">
+</head>
+<body>
+    <div class="container evaluation-container">
+        <div class="evaluation-card">
+            <div class="success-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+            </div>
+
+            <h1>Evaluation Complete</h1>
+            
+            <div class="status-message">
+                <p>The standardized document has been successfully evaluated and processed.</p>
+            </div>
+
+            <div class="action-buttons">
+                <a href="{{ url_for('download_file', filename='evaluated_standardized_document.xlsx') }}" class="download-btn primary">
+                    <span class="icon">📊</span>
+                    Download Evaluated Document
+                </a>
+
+                <div class="secondary-actions">
+                    <a href="/" class="back-btn">
+                        <span class="icon">↑</span>
+                        Upload Another File
+                    </a>
+                    <a href="{{ url_for('upload_standardized_doc') }}" class="back-btn">
+                        <span class="icon">📄</span>
+                        Process Another Standard File
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

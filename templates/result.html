@@ -3,14 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Results</title>
+    <title>Results - Data Processing</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/results.css') }}">
 </head>
 <body>
-    <h1>Rows with Poor Formatting</h1>
-    {% for table in tables %}
-        {{ titles[loop.index0] }}
-        {{ table|safe }}
-    {% endfor %}
-    <a href="/">Upload another file</a>
+    <div class="container results-container">
+        <header class="results-header">
+            <h1>Processing Results</h1>
+            <a href="/" class="back-button">← Back to Upload</a>
+        </header>
+
+        <section class="results-section">
+            <h2>Rows with Poor Formatting</h2>
+            <div class="table-responsive">
+                {% for table in tables %}
+                    <div class="table-container">
+                        <h3>{{ titles[loop.index0] }}</h3>
+                        {{ table|safe }}
+                    </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="download-section">
+            <h2>Download Processed Files</h2>
+            <div class="download-buttons">
+                <a href="{{ url_for('download_file', filename='combined.csv') }}" class="download-btn">
+                    <span class="icon">📄</span>
+                    Download Combined Data (CSV)
+                </a>
+                <a href="{{ url_for('download_file', filename='evaluated_standardized_document.xlsx') }}" class="download-btn">
+                    <span class="icon">📊</span>
+                    Download Evaluated Document
+                </a>
+            </div>
+        </section>
+
+        <section class="upload-standardized-section">
+            <h2>Upload Standardized File</h2>
+            <p>Please upload a standardized Excel file (.xlsx) to evaluate against the combined data.</p>
+            
+            <form method="post" action="{{ url_for('upload_standardized_doc') }}" enctype="multipart/form-data" class="standardized-form">
+                <div class="file-input-container">
+                    <label class="file-input-label">
+                        <span id="standardized-file-label">Choose standardized file</span>
+                        <input type="file" name="standardized_file" accept=".xlsx" required class="file-input">
+                    </label>
+                    <div class="file-name" id="standardized-file-name"></div>
+                </div>
+                <button type="submit" class="submit-btn">Process Standardized File</button>
+            </form>
+        </section>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/results.js') }}"></script>
 </body>
 </html>
