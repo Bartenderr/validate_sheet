@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Excel File</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Upload Excel File</h1>
+        <p>Please upload an Excel file (.xlsx) containing your data. The application will process the file and display any rows with poor formatting.</p>
+        
+        <form method="post" enctype="multipart/form-data" class="upload-form">
+            <div class="file-input-container">
+                <label class="file-input-label">
+                    <span id="file-label-text">Choose a file or drag it here</span>
+                    <input type="file" name="file" accept=".xlsx" required class="file-input">
+                </label>
+                <div class="file-name" id="file-name"></div>
+            </div>
+            <button type="submit" class="submit-btn">Upload and Process</button>
+        </form>
+        
+        <div class="loading" id="loading">
+            <div class="loading-spinner"></div>
+            <p>Processing your file...</p>
+        </div>
+
+        {% if error %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+        {% endif %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
