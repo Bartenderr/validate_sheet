@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import numpy as np
 from flask import Flask, send_file, request, render_template
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__, static_folder='static')
 
@@ -80,6 +81,49 @@ def upload_standardized_doc():
 
     return render_template('upload_standardized.html')
 
+@app.route('/split-excel', methods=['GET', 'POST'])
+def split_excel():
+    if request.method == 'POST':
+        try:
+            file = request.files['file']
+            if file:
+                # Save the uploaded file
+                input_file = secure_filename(file.filename)
+                file.save(input_file)
+                
+                # Read the Excel file
+                df = pd.read_excel(input_file, engine='openpyxl')
+                
+                # Get unique categories
+                category_column = 'tariff_type'
+                unique_categories = df[category_column].unique()
+                
+                # Create output filename
+                timestamp = pd.Timestamp.now().strftime('%Y%m%d')
+                output_file = f'classified_{timestamp}_split.xlsx'
+                
+                # Split into separate sheets
+                with pd.ExcelWriter(output_file, engine='openpyxl') as writer:
+                    # First save the complete dataset
+                    df.to_excel(writer, sheet_name='Complete_Dataset', index=True)
+                    
+                    # Then save individual category sheets
+                    for category in unique_categories:
+                        subset_df = df[df[category_column] == category]
+                        subset_df.to_excel(writer, sheet_name=str(category), index=True)
+                
+                # Clean up the input file
+                os.remove(input_file)
+                
+                return render_template('split_result.html', 
+                                     filename=output_file,
+                                     category_count=len(unique_categories))
+                
+        except Exception as e:
+            return render_template('split_excel.html', error=str(e))
+            
+    return render_template('split_excel.html')
+
 @app.route('/download/<filename>')
 def download_file(filename):
     if not os.path.exists(filename):
@@ -87,5 +131,18 @@ def download_file(filename):
     return send_file(filename, as_attachment=True)
 
 
+@app.route('/download-split/<filename>')
+def download_split(filename):
+    try:
+        return send_file(filename, as_attachment=True)
+    except Exception as e:
+        return str(e), 404
+
+# Add this route to handle the floating action button
+@app.route('/split-excel-modal')
+def split_excel_modal():
+    return render_template('split_excel_modal.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
+

@@ -1,0 +1,7 @@
+<div class="modal-content">
+    <h2>Split Excel File</h2>
+    <form method="post" action="{{ url_for('split_excel') }}" enctype="multipart/form-data" class="modal-form">
+        <input type="file" name="file" accept=".xlsx" required>
+        <button type="submit">Split File</button>
+    </form>
+</div>
