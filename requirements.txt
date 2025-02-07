@@ -4,6 +4,6 @@ autopep8
 
 # App
 flask
+numpy
 pandas
 openpyxl
-numpy

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split Excel File</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/split_excel.css') }}">
+</head>
+<body>
+    <div class="container split-excel-container">
+        <div class="split-card">
+            <header class="split-header">
+                <h1>Split Excel by Categories</h1>
+                <p class="subtitle">Upload an Excel file to split it into separate sheets based on categories</p>
+            </header>
+
+            <div class="upload-section">
+                <form method="post" enctype="multipart/form-data" class="split-form" id="splitForm">
+                    <div class="file-drop-zone" id="dropZone">
+                        <div class="file-input-container">
+                            <input type="file" name="file" accept=".xlsx" required 
+                                   class="file-input" id="fileInput">
+                            <label for="fileInput" class="file-label">
+                                <div class="upload-icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                        <polyline points="17 8 12 3 7 8"/>
+                                        <line x1="12" y1="3" x2="12" y2="15"/>
+                                    </svg>
+                                </div>
+                                <span class="upload-text">
+                                    Drag & drop your Excel file here or click to browse
+                                </span>
+                                <span class="file-format">Supports: .xlsx</span>
+                            </label>
+                        </div>
+                        <div class="selected-file" id="selectedFile"></div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        Split File
+                    </button>
+                </form>
+            </div>
+
+            {% if error %}
+            <div class="error-message">
+                {{ error }}
+            </div>
+            {% endif %}
+
+            <div class="help-section">
+                <h2>Instructions</h2>
+                <ul>
+                    <li>File must be in Excel format (.xlsx)</li>
+                    <li>File must contain a 'tariff_type' column</li>
+                    <li>Each category will be created as a separate sheet</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/split_excel.js') }}"></script>
+</body>
+</html>

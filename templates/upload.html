@@ -10,7 +10,7 @@
     <div class="container">
         <h1>Upload Excel File</h1>
         <p>Please upload an Excel file (.xlsx) containing your data. The application will process the file and display any rows with poor formatting.</p>
-        
+
         <form method="post" enctype="multipart/form-data" class="upload-form">
             <div class="file-input-container">
                 <label class="file-input-label">
@@ -21,7 +21,7 @@
             </div>
             <button type="submit" class="submit-btn">Upload and Process</button>
         </form>
-        
+
         <div class="loading" id="loading">
             <div class="loading-spinner"></div>
             <p>Processing your file...</p>
@@ -33,6 +33,26 @@
             </div>
         {% endif %}
     </div>
+
+    <!-- Floating Action Button -->
+    <div class="floating-split-btn" id="splitBtn" title="Split Excel File">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+        </svg>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="splitModal">
+        <!-- Modal content will be loaded here -->
+    </div>
+
+    <script>
+    document.getElementById('splitBtn').addEventListener('click', function() {
+        window.location.href = "{{ url_for('split_excel') }}";
+    });
+    </script>
 
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>

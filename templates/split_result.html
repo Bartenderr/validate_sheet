@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Split Complete</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/split_result.css') }}">
+</head>
+<body>
+    <div class="container result-container">
+        <div class="result-card">
+            <div class="success-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+            </div>
+
+            <h1>Split Complete!</h1>
+            
+            <div class="status-message">
+                <p>Successfully split the Excel file into {{ category_count }} sheets.</p>
+            </div>
+
+            <div class="action-buttons">
+                <a href="{{ url_for('download_split', filename=filename) }}" class="download-btn primary">
+                    <span class="icon">📊</span>
+                    Download Split File
+                </a>
+
+                <div class="secondary-actions">
+                    <a href="{{ url_for('split_excel') }}" class="back-btn">
+                        <span class="icon">↑</span>
+                        Split Another File
+                    </a>
+                    <a href="/" class="back-btn">
+                        <span class="icon">🏠</span>
+                        Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
