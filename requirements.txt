@@ -7,3 +7,5 @@ flask
 pandas
 openpyxl
 numpy
+fuzzywuzzy
+python-Levenshtein
