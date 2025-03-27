@@ -6,4 +6,11 @@ autopep8
 flask
 numpy
 pandas
+<<<<<<< HEAD
 openpyxl
+=======
+openpyxl
+numpy
+fuzzywuzzy
+python-Levenshtein
+>>>>>>> origin/baby
