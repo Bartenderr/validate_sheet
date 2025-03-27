@@ -1,8 +1,4 @@
 import os
-<<<<<<< HEAD
-=======
-from fuzzywuzzy import fuzz
->>>>>>> origin/baby
 import uuid
 import pandas as pd
 import numpy as np
@@ -12,8 +8,6 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__, static_folder='static')
 
 
-<<<<<<< HEAD
-=======
 tags_list = ['(medicinal product form)', '(medicinal product)', '(clinical drug)',
             '(physical object)', '(product)', '(substance)', '(procedure)', '(finding)']
 
@@ -24,7 +18,6 @@ act_list = act_df['Active_substance(s)'].to_list()
 act_list = [item.lower() for item in act_list]
 
 
->>>>>>> origin/baby
 # Function to combine sheets into a single DataFrame
 def combine_sheets_to_csv(xlsx_file):
     excel_file = pd.ExcelFile(xlsx_file)
@@ -41,8 +34,6 @@ def combine_sheets_to_csv(xlsx_file):
 
     return combined_data
 
-<<<<<<< HEAD
-=======
 def extract_and_remove_tag(text):
     extracted_tag = None
     for tag in tags_list:
@@ -63,7 +54,6 @@ def get_active_ingredients(text):
             pass
     return extracted_ing
 
->>>>>>> origin/baby
 
 # Function to evaluate and modify the standardized document
 def evaluate_standardized_doc(standardized_file, combined_data):
@@ -74,22 +64,13 @@ def evaluate_standardized_doc(standardized_file, combined_data):
     standardized_data['act_new'] = standardized_data['Target display'].apply(get_active_ingredients)
 
     combined_data.rename(columns={'raw_input': 'Source display'}, inplace=True)
-<<<<<<< HEAD
-    combined_data['target_code'].fillna(value="1", inplace=True)
-=======
     combined_data['target_code'] = combined_data['target_code'].fillna(value="1")
->>>>>>> origin/baby
     combined_data['target_code'] = combined_data['target_code'].astype(int)
     combined_data['old_tag'] = combined_data['Source display'].apply(extract_and_remove_tag).apply(pd.Series)
     combined_data['act_old'] = combined_data['display_name'].apply(get_active_ingredients)
 
     merged_data = pd.merge(
-<<<<<<< HEAD
-        standardized_data,
-        combined_data[['Source display', 'target_code', 'tariff_type', 'display_name', 'match_percent']],
-=======
         standardized_data, combined_data[['Source display', 'target_code', 'tariff_type', 'display_name', 'match_percent', 'location_ref', 'act_old']],
->>>>>>> origin/baby
         left_on='Source display',
         right_on='Source display',
         how='left'
@@ -101,14 +82,6 @@ def evaluate_standardized_doc(standardized_file, combined_data):
         'E'  # Edited if not equal
     )
 
-<<<<<<< HEAD
-    output_file_path = f'evaluated_standardized_document_{uuid.uuid4().hex}.xlsx'
-    merged_data.to_excel(output_file_path, index=False)
-
-    return output_file_path
-
-
-=======
     merged_data['similarity'] = merged_data.apply(lambda row: fuzz.ratio(row['act_new'], row['act_old']), axis=1)
 
     output_file_path = f'evaluated_standardized_document_{uuid.uuid4().hex}.xlsx'
@@ -121,7 +94,6 @@ def evaluate_standardized_doc(standardized_file, combined_data):
 
 
 
->>>>>>> origin/baby
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
     if request.method == 'POST':
@@ -147,25 +119,17 @@ def upload_file():
 def upload_standardized_doc():
     if request.method == 'POST':
         try:
-<<<<<<< HEAD
-            standard_file = request.files['standardized_file']
-            combined_data = pd.read_csv('combined.csv')  # Load previously saved combined data
-=======
             print("Trying to get file...")  # Debug line
             standard_file = request.files['standardized_file']
             print("Got file, trying to read CSV...")  # Debug line
             combined_data = pd.read_csv('combined.csv')  # Load previously saved combined data
             print("CSV read successfully!")
->>>>>>> origin/baby
 
             if standard_file:
                 output_file_path = evaluate_standardized_doc(standard_file, combined_data)
                 return render_template('evaluation_result.html', download_link=output_file_path)
         except Exception as e:
-<<<<<<< HEAD
-=======
             print(f"ERROR: {str(e)}")
->>>>>>> origin/baby
             return render_template('upload_standardized.html', error=str(e))
 
     return render_template('upload_standardized.html')
