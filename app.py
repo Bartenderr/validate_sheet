@@ -1,4 +1,5 @@
 import os
+from fuzzywuzzy import fuzz
 import uuid
 import pandas as pd
 import numpy as np
@@ -11,7 +12,7 @@ app = Flask(__name__, static_folder='static')
 tags_list = ['(medicinal product form)', '(medicinal product)', '(clinical drug)',
             '(physical object)', '(product)', '(substance)', '(procedure)', '(finding)']
 
-active_ingredient_url = '/home/user/validatesheet/data/Active_ingredient.xlsx'
+active_ingredient_url = 'data/Active_ingredient.xlsx'
 act_df = pd.read_excel(active_ingredient_url)
 act_list = act_df['Active_substance(s)'].to_list()
 
@@ -60,13 +61,13 @@ def evaluate_standardized_doc(standardized_file, combined_data):
     standardized_data = pd.read_excel(standardized_file)
     standardized_data['Target code'] = standardized_data['Target code'].fillna(value="1")
     standardized_data['Target code'] = standardized_data['Target code'].astype(int)
-    standardized_data['new_tag'] = standardized_data['Target display'].apply(extract_and_remove_tag).apply(pd.Series)
+    standardized_data['new_tag'] = standardized_data['Target display'].apply(extract_and_remove_tag)
     standardized_data['act_new'] = standardized_data['Target display'].apply(get_active_ingredients)
 
     combined_data.rename(columns={'raw_input': 'Source display'}, inplace=True)
     combined_data['target_code'] = combined_data['target_code'].fillna(value="1")
     combined_data['target_code'] = combined_data['target_code'].astype(int)
-    combined_data['old_tag'] = combined_data['Source display'].apply(extract_and_remove_tag).apply(pd.Series)
+    combined_data['old_tag'] = combined_data['Source display'].apply(extract_and_remove_tag)
     combined_data['act_old'] = combined_data['display_name'].apply(get_active_ingredients)
 
     merged_data = pd.merge(
