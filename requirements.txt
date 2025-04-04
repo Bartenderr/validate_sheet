@@ -10,3 +10,4 @@ openpyxl
 numpy
 fuzzywuzzy
 python-Levenshtein
+streamlit
