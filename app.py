@@ -196,5 +196,5 @@ def split_excel_modal():
 if __name__ == "__main__":
     #app.run(debug=os.getenv("FLASK_DEBUG", "False").lower() == "true")
 
-    st.title("My Streamlit App")
-    st.write("This is a simple Streamlit app created by an AI")
+    st.title("My Validate sheet")
+    st.write("App is live!!")
