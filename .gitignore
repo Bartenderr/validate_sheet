@@ -1,0 +1,4 @@
+.venv
+.DS_Store
+static/.DS_Store
+.venv/lib/python3.11/site-packages/_distutils_hack/__pycache__/__init__.cpython-311.pyc
